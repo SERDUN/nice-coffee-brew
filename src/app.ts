@@ -9,6 +9,7 @@ import brewRoutes from './features/brew/brew.routes.js';
 
 export function createApp() {
     const app = express();
+    const apiRouter = express.Router();
 
     app.use(helmet());
     app.use(cors());
@@ -18,7 +19,7 @@ export function createApp() {
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
 
-    app.use('/brews', brewRoutes);
-
+    apiRouter.use('/brews', brewRoutes);
+    app.use('/api', apiRouter);
     return app;
 }
