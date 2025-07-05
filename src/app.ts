@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import morgan from 'morgan';
 import { pinoHttp } from 'pino-http';
 import { config } from './config/index.js';
+import brewRoutes from './features/brew/brew.routes.js';
 
 export function createApp() {
     const app = express();
@@ -16,5 +17,8 @@ export function createApp() {
     app.use(pinoHttp());
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
+
+    app.use('/brews', brewRoutes);
+
     return app;
 }
