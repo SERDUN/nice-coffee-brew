@@ -1,4 +1,4 @@
-import { Brew } from '../models/brew.model';
+import { Brew } from '../models/index.js';
 import { nanoid } from "nanoid";
 
 export type BrewCreateDto = Omit<Brew, 'id'> & { brewedAt: string | Date };

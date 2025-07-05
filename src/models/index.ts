@@ -1,1 +1,1 @@
-export * from './brew.model';
+export * from './brew.model.js';

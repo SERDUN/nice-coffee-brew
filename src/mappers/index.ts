@@ -1,1 +1,1 @@
-export * from './brew.mapper';
+export * from './brew.mapper.js';
