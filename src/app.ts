@@ -16,12 +16,15 @@ import { z } from "./openapi/registry.js";
 import { brewModule } from "./features/brew/index.js";
 import { configModule } from "./config/config.di.js";
 
-export function createApp() {
+export async function createApp() {
     const app = express();
     const apiRouter = express.Router();
 
-    registerModules(container, brewModule);
     registerModules(container, configModule);
+    registerModules(container, brewModule);
+
+    const dataSource = container.resolve("appDataSource");
+    await dataSource.initialize();
 
     app.use(helmet());
     app.use(cors());

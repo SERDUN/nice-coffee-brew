@@ -4,7 +4,11 @@ import { DataSource, Repository } from "typeorm";
 export class BrewRepository {
     private readonly repo: Repository<Brew>;
 
-    constructor({appDataSource}: { appDataSource: DataSource }) {
+    constructor(appDataSource: DataSource) {
+        if (!appDataSource) {
+            console.error("[DI] appDataSource is undefined in BrewRepository!");
+            throw new Error("appDataSource is undefined in BrewRepository!");
+        }
         this.repo = appDataSource.getRepository(Brew);
     }
 
