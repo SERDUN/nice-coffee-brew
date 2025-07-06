@@ -29,8 +29,9 @@ export class BrewController {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const {name} = req.body;
-            res.status(201).json(await this.brewService.createBrew(name));
+            console.log('Creating brew with body:', req.body);
+            const brew = req.body;
+            res.status(201).json(await this.brewService.createBrew(brew));
         } catch (err) {
             next(err);
         }

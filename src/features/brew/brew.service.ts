@@ -1,64 +1,34 @@
-import { Brew } from "../../models/index.js";
-import { randomUUID } from "crypto";
+import { Brew } from "../../datasources/brew.entity.js";
+import { BrewRepository } from "../../repository/brew.repository.js";
 
 class BrewService {
     static scope = 'scoped';
 
-    private readonly brews: Brew[] = [];
+    brewRepository: BrewRepository;
 
-    constructor() {
-        this.brews = [
-            {
-                id: "1",
-                beans: "Colombia",
-                method: "espresso",
-                brewedAt: new Date(),
-                time: 30,
-                rating: 5,
-                notes: "Intense taste"
-            },
-            {
-                id: "2",
-                beans: "Ethiopia",
-                method: "v60",
-                brewedAt: new Date(),
-                time: 180,
-                rating: 4,
-                notes: "Fruity aroma"
-            }
-        ];
+    constructor(brewRepository: BrewRepository) {
+        this.brewRepository = brewRepository;
     }
 
     async getBrews(): Promise<Brew[]> {
-        return this.brews;
+        return this.brewRepository.getAll();
     }
 
-    async getBrewById(id: string): Promise<Brew | undefined> {
-        return this.brews.find(b => b.id === id);
+    async getBrewById(id: string): Promise<Brew | null> {
+        return this.brewRepository.getById(id);
     }
 
     async createBrew(brew: Omit<Brew, "id">): Promise<Brew> {
-        const newBrew: Brew = {
-            ...brew,
-            id: randomUUID()
-        };
-        this.brews.push(newBrew);
-        return newBrew;
+        return this.brewRepository.create(brew);
     }
 
-    async updateBrew(id: string, brew: Omit<Brew, "id">): Promise<Brew | undefined> {
-        const index = this.brews.findIndex(b => b.id === id);
-        if (index === -1) return undefined;
-        const updatedBrew: Brew = {...brew, id};
-        this.brews[index] = updatedBrew;
-        return updatedBrew;
+    async updateBrew(id: string, brew: Omit<Brew, "id">): Promise<Brew | null> {
+        return this.brewRepository.update(id, brew);
     }
 
     async deleteBrew(id: string): Promise<{ success: boolean; id: string }> {
-        const index = this.brews.findIndex(b => b.id === id);
-        if (index === -1) return {success: false, id};
-        this.brews.splice(index, 1);
-        return {success: true, id};
+        const success = await this.brewRepository.delete(id);
+        return {success, id};
     }
 }
 

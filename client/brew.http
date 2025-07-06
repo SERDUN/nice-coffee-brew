@@ -1,0 +1,44 @@
+### Get all brews
+GET http://localhost:3000/api/brews
+Accept: application/json
+
+###
+
+### Get brew by id
+GET http://localhost:3000/api/brews/{{brewId}}
+Accept: application/json
+
+###
+
+### Create brew
+POST http://localhost:3000/api/brews
+Content-Type: application/json
+
+{
+  "beans": "Ethiopia",
+  "method": "v60",
+  "brewedAt": "2024-07-06T10:23:00.000Z",
+  "time": 180,
+  "rating": 4,
+  "notes": "Floral aroma"
+}
+
+###
+
+### Update brew (replace brewId with actual value)
+PATCH http://localhost:3000/api/brews/{{brewId}}
+Content-Type: application/json
+
+{
+  "beans": "Colombia",
+  "method": "espresso",
+  "brewedAt": "2024-07-06T12:30:00.000Z",
+  "time": 30,
+  "rating": 5,
+  "notes": "Strong body"
+}
+
+###
+
+### Delete brew
+DELETE http://localhost:3000/api/brews/{{brewId}}

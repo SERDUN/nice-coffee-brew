@@ -13,10 +13,12 @@ import { OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 import { registry } from "./openapi/registry.js";
 import { BrewCreateDto, BrewSchema, BrewUpdateDto } from "./dto/index.js";
 import { z } from "zod";
+import { AppDataSource } from "./config/data-source.js";
 
 export function createApp() {
     const app = express();
     const apiRouter = express.Router();
+
 
     app.use(helmet());
     app.use(cors());

@@ -1,0 +1,37 @@
+import { Brew } from "../datasources/brew.entity.js";
+import { AppDataSource } from "../config/data-source.js";
+import { Repository } from "typeorm";
+
+export class BrewRepository {
+    private readonly repo: Repository<Brew>;
+
+    constructor() {
+        this.repo = AppDataSource.getRepository(Brew);
+    }
+
+    getAll(): Promise<Brew[]> {
+        return this.repo.find();
+    }
+
+    getById(id: string): Promise<Brew | null> {
+        return this.repo.findOneBy({id});
+    }
+
+    async create(brew: Omit<Brew, "id">): Promise<Brew> {
+        const entity = this.repo.create(brew as Brew);
+        return this.repo.save(entity);
+    }
+
+    async update(id: string, data: Partial<Omit<Brew, "id">>): Promise<Brew | null> {
+        const entity = await this.repo.findOneBy({id});
+        if (!entity) return null;
+        Object.assign(entity, data);
+        await this.repo.save(entity);
+        return entity;
+    }
+
+    async delete(id: string): Promise<boolean> {
+        const result = await this.repo.delete(id);
+        return result.affected === 1;
+    }
+}
