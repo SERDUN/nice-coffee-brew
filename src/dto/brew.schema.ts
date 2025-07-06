@@ -24,4 +24,4 @@ export type BrewUpdateDto = z.infer<typeof BrewUpdateDto>;
 export const BrewResponseDto = BrewSchema;
 export type BrewResponseDto = z.infer<typeof BrewResponseDto>;
 
-registry?.register('User', BrewSchema);
+registry?.register('Brew', BrewSchema);

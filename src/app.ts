@@ -172,7 +172,10 @@ export function generateSpecs() {
             description: 'API documentation'
         },
         servers: [
-            {url: config.baseUrl ?? 'http://localhost:3000'}
+            {
+                url: 'https://nice-coffee-brew-production.up.railway.app/',
+                description: 'Production server'
+            }
         ]
     });
 }
