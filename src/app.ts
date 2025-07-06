@@ -11,7 +11,7 @@ import { container, registerModules } from "./di/index.js";
 import swaggerUi from 'swagger-ui-express';
 import { brewModule } from "./features/brew/index.js";
 import { configModule } from "./config/config.di.js";
-import { notFoundMiddleware } from "./utils/index.js";
+import { notFoundMiddleware, rateLimitPostMiddleware } from "./utils/index.js";
 import { generateSpecs } from "./openapi/specs.js";
 
 export async function createApp() {
@@ -37,6 +37,7 @@ export async function createApp() {
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(generateSpecs()));
     console.log(`Swagger docs → ${config.baseUrl}/docs`);
 
+    apiRouter.use(rateLimitPostMiddleware);
     apiRouter.use('/brews', brewRoutes);
     app.use('/api', apiRouter);
     app.use(notFoundMiddleware);

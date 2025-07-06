@@ -84,6 +84,15 @@ export class AppConfig {
         };
     }
 
+    get postRateLimit(): RateLimitOptions {
+        return {
+            windowMs: this.env.RATE_LIMIT_WINDOW,
+            max: this.env.RATE_LIMIT_POST_MAX,
+            standardHeaders: true,
+            legacyHeaders: false,
+        };
+    }
+
     get corsOrigin(): string {
         return this.env.CORS_ORIGIN;
     }
