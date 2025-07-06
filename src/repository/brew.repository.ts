@@ -1,12 +1,11 @@
 import { Brew } from "../datasources/index.js";
-import { AppDataSource } from "../config/index.js";
-import { Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 
 export class BrewRepository {
     private readonly repo: Repository<Brew>;
 
-    constructor() {
-        this.repo = AppDataSource.getRepository(Brew);
+    constructor({appDataSource}: { appDataSource: DataSource }) {
+        this.repo = appDataSource.getRepository(Brew);
     }
 
     getAll(): Promise<Brew[]> {

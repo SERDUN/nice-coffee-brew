@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "nodemon src/server.mjs",
     "lint": "eslint .",
-    "build": "node build.mjs",
-    "start": "node dist/server.mjs"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "build-bundle": "node build.mjs",
+    "start-bundle": "node dist/server.mjs"
   },
   "keywords": [],
   "author": "",

@@ -7,16 +7,21 @@ import { pinoHttp } from 'pino-http';
 import { config } from './config/index.js';
 import brewRoutes from './features/brew/brew.routes.js';
 import { scopePerRequest } from "awilix-express";
-import { container } from "./di/index.js";
+import { container, registerModules } from "./di/index.js";
 import swaggerUi from 'swagger-ui-express';
 import { OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 import { registry } from "./openapi/registry.js";
 import { BrewCreateDto, BrewSchema } from "./dto/index.js";
 import { z } from "./openapi/registry.js";
+import { brewModule } from "./features/brew/index.js";
+import { configModule } from "./config/config.di.js";
 
 export function createApp() {
     const app = express();
     const apiRouter = express.Router();
+
+    registerModules(container, brewModule);
+    registerModules(container, configModule);
 
     app.use(helmet());
     app.use(cors());

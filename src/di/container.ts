@@ -1,31 +1,39 @@
-import { createContainer, asClass, InjectionMode, AwilixContainer } from 'awilix';
-import { modules } from "./modules.js";
+import { AwilixContainer, asClass, asFunction, asValue, createContainer, InjectionMode } from "awilix";
 
+type Scope = 'singleton' | 'scoped' | 'transient';
 
-export const container = createContainer({injectionMode: InjectionMode.CLASSIC});
-registerModules(container, modules);
+type ClassModule = { class: any; scope: Scope };
+type FunctionModule = { token: string; use: 'function'; value: (...args: any[]) => any; scope?: Scope };
+type ValueModule = { token: string; use: 'value'; value: any };
 
-export function registerModules(container: AwilixContainer, modules: Array<{ class: any, scope: string }>) {
-    for (const {class: Klass, scope} of modules) {
-        const key = classToKey(Klass);
-        let registration;
-        switch (scope) {
-            case 'singleton':
-                registration = asClass(Klass).singleton();
-                break;
-            case 'scoped':
-                registration = asClass(Klass).scoped();
-                break;
-            case 'transient':
-                registration = asClass(Klass).transient();
-                break;
-            default:
-                throw new Error(`Unknown scope: ${scope}`);
+export type ModuleRegistration = ClassModule | FunctionModule | ValueModule;
+
+export function registerModules(
+    container: AwilixContainer,
+    modules: ModuleRegistration[]
+) {
+    for (const mod of modules) {
+        if ("class" in mod) {
+            let registration = asClass(mod.class);
+            if (mod.scope === "singleton") registration = registration.singleton();
+            else if (mod.scope === "scoped") registration = registration.scoped();
+            else if (mod.scope === "transient") registration = registration.transient();
+            container.register({[classToKey(mod.class)]: registration});
+        } else if (mod.use === "function") {
+            //
+            let registration = asFunction(mod.value);
+            if (mod.scope === "singleton") registration = registration.singleton();
+            else if (mod.scope === "scoped") registration = registration.scoped();
+            else if (mod.scope === "transient") registration = registration.transient();
+            container.register({[mod.token]: registration});
+        } else if (mod.use === "value") {
+            container.register({[mod.token]: asValue(mod.value)});
         }
-        container.register({[key]: registration});
     }
 }
 
 function classToKey(cls: Function): string {
     return cls.name.charAt(0).toLowerCase() + cls.name.slice(1);
 }
+
+export const container = createContainer({injectionMode: InjectionMode.CLASSIC});
