@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { Brew } from "../datasources/brew.entity.js";
+import { Brew } from "../datasources/index.js";
 import { config } from "./index.js";
 
 const dbConfig = config.dbConfig;

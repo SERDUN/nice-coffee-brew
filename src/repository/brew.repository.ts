@@ -1,5 +1,5 @@
-import { Brew } from "../datasources/brew.entity.js";
-import { AppDataSource } from "../config/data-source.js";
+import { Brew } from "../datasources/index.js";
+import { AppDataSource } from "../config/index.js";
 import { Repository } from "typeorm";
 
 export class BrewRepository {

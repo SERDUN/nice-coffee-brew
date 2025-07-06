@@ -1,5 +1,5 @@
-import { Brew } from "../../datasources/brew.entity.js";
-import { BrewRepository } from "../../repository/brew.repository.js";
+import { Brew } from "../../datasources/index.js";
+import { BrewRepository } from "../../repository/index.js";
 
 class BrewService {
     static scope = 'scoped';

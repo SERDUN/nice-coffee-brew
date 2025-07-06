@@ -11,7 +11,7 @@ import { container } from "./di/index.js";
 import swaggerUi from 'swagger-ui-express';
 import { OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 import { registry } from "./openapi/registry.js";
-import { BrewCreateDto, BrewSchema, BrewUpdateDto } from "./dto/index.js";
+import { BrewCreateDto, BrewSchema } from "./dto/index.js";
 import { z } from "./openapi/registry.js";
 
 export function createApp() {

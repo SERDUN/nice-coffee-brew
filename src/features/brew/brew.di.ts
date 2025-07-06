@@ -1,6 +1,6 @@
 import { BrewService } from './brew.service.js';
 import { BrewController } from './brew.controller.js';
-import { BrewRepository } from "../../repository/brew.repository.js";
+import { BrewRepository } from "../../repository/index.js";
 
 export const brewModule = [
     {class: BrewRepository, scope: 'singleton'},
