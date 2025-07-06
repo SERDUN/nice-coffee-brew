@@ -76,14 +76,6 @@ export class AppConfig {
             legacyHeaders: false,
         };
     }
-
-    get sentryDsn(): string | undefined {
-        return this.env.SENTRY_DSN;
-    }
-
-    get experimentalApi(): boolean {
-        return this.env.EXPERIMENTAL_API ?? false;
-    }
 }
 
 export const config = new AppConfig();
