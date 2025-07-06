@@ -1,5 +1,5 @@
-import { extendZodWithOpenApi, OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
-import { z } from 'zod';
+import { z } from "zod";
+import { extendZodWithOpenApi, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 
 extendZodWithOpenApi(z);
 
@@ -9,4 +9,5 @@ declare global {
 
 globalThis.registry ??= new OpenAPIRegistry();
 
-export const registry: OpenAPIRegistry = globalThis.registry;
+export { z };
+export const registry: OpenAPIRegistry = globalThis.registry!;

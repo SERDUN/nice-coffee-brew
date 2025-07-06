@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../openapi/registry.js";
 
 export const BrewMethodEnum = z.enum(["v60", "aeropress", "chemex", "espresso"]);
 

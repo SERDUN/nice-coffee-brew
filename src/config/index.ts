@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import pkg from '../../package.json' with { type: 'json' };
-import { z } from 'zod';
+import { z } from "../openapi/registry.js";
 
 const DEFAULT_PORT = 3000;
 const DEFAULT_ENV = 'development';

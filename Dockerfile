@@ -1,9 +1,8 @@
 # Build stage
-FROM node:20-slim as build
+FROM node:20-slim AS build
 
 WORKDIR /usr/src/app
 
-# Встановлюємо залежності для білду
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY build.mjs ./

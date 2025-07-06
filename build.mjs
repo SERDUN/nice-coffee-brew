@@ -20,7 +20,6 @@ await build({
 	external: [
 		'express',
 		'swagger-ui-express',
-		'@asteasolutions/zod-to-openapi',
 		'awilix-express',
 		'awilix',
 	],
