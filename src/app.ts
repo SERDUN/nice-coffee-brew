@@ -15,6 +15,7 @@ import { BrewCreateDto, BrewSchema } from "./dto/index.js";
 import { z } from "./openapi/registry.js";
 import { brewModule } from "./features/brew/index.js";
 import { configModule } from "./config/config.di.js";
+import { notFoundMiddleware } from "./utils/index.js";
 
 export async function createApp() {
     const app = express();
@@ -41,6 +42,7 @@ export async function createApp() {
 
     apiRouter.use('/brews', brewRoutes);
     app.use('/api', apiRouter);
+    app.use(notFoundMiddleware);
     return app;
 }
 

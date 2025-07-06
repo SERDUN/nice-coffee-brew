@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { makeClassInvoker } from 'awilix-express';
 import { BrewController } from './brew.controller.js';
-import { validateDto } from "../../utils/validate.js";
+import { validateDto } from "../../utils/validate.middleware.js";
 import { BrewCreateDto, BrewUpdateDto } from "../../dto/index.js";
 
 const router = Router();
