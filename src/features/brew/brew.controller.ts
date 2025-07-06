@@ -2,7 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import { BrewService } from "./brew.service.js";
 
 export class BrewController {
-    brewService = new BrewService();
+    static scope = 'scoped';
+
+    brewService: BrewService;
+
+    constructor(brewService: BrewService) {
+        this.brewService = brewService;
+    }
 
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {

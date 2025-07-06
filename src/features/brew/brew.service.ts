@@ -2,6 +2,8 @@ import { Brew } from "../../models/index.js";
 import { randomUUID } from "crypto";
 
 class BrewService {
+    static scope = 'scoped';
+
     private readonly brews: Brew[] = [];
 
     constructor() {

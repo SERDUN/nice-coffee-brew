@@ -1,13 +1,14 @@
 import { Router } from 'express';
-import { BrewController } from "./brew.controller.js";
+import { makeClassInvoker } from 'awilix-express';
+import { BrewController } from './brew.controller.js';
 
 const router = Router();
-const brewController = new BrewController();
+const api = makeClassInvoker(BrewController);
 
-router.get('/', brewController.getAll.bind(brewController));
-router.get('/:id', brewController.getById.bind(brewController));
-router.post('/', brewController.create.bind(brewController));
-router.put('/:id', brewController.update.bind(brewController));
-router.delete('/:id', brewController.delete.bind(brewController));
+router.get('/', api('getAll'));
+router.get('/:id', api('getById'));
+router.post('/', api('create'));
+router.put('/:id', api('update'));
+router.delete('/:id', api('delete'));
 
 export default router;
