@@ -23,6 +23,9 @@ const schema = z.object({
     ENABLE_CSP: z.coerce.boolean().default(false),
     CSP_CONNECT_SRC: z.string().optional(),
     OPENAPI_SERVERS: z.string().optional(),
+    RATE_LIMIT_WINDOW: z.coerce.number().default(60_000), // ms
+    RATE_LIMIT_MAX: z.coerce.number().default(100),
+    RATE_LIMIT_POST_MAX: z.coerce.number().default(10),
 });
 
 type EnvSchema = z.infer<typeof schema>;
@@ -74,8 +77,8 @@ export class AppConfig {
 
     get rateLimit(): RateLimitOptions {
         return {
-            windowMs: 60_000,
-            max: 100,
+            windowMs: this.env.RATE_LIMIT_WINDOW,
+            max: this.env.RATE_LIMIT_MAX,
             standardHeaders: true,
             legacyHeaders: false,
         };
