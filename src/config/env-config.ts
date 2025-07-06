@@ -19,6 +19,10 @@ const schema = z.object({
     DB_LOGGING: z.coerce.boolean().default(false),
     SENTRY_DSN: z.string().optional(),
     EXPERIMENTAL_API: z.coerce.boolean().optional(),
+    CORS_ORIGIN: z.string().default("*"),
+    ENABLE_CSP: z.coerce.boolean().default(false),
+    CSP_CONNECT_SRC: z.string().optional(),
+    OPENAPI_SERVERS: z.string().optional(),
 });
 
 type EnvSchema = z.infer<typeof schema>;
@@ -75,6 +79,34 @@ export class AppConfig {
             standardHeaders: true,
             legacyHeaders: false,
         };
+    }
+
+    get corsOrigin(): string {
+        return this.env.CORS_ORIGIN;
+    }
+
+    get enableCsp(): boolean {
+        return this.env.ENABLE_CSP;
+    }
+
+    get cspConnectSrc(): string[] {
+        return (this.env.CSP_CONNECT_SRC ?? "'self'").split(/\s+/);
+    }
+
+    get openapiServers() {
+        if (!this.env.OPENAPI_SERVERS) {
+            return [{
+                url: this.baseUrl,
+                description: 'Default server',
+            }];
+        }
+        return this.env.OPENAPI_SERVERS.split(";").map(s => {
+            const [url, description] = s.split("|");
+            return {
+                url: url.trim(),
+                description: (description ?? url).trim(),
+            };
+        });
     }
 }
 

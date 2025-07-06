@@ -31,6 +31,7 @@ export function createApp() {
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
     app.use(scopePerRequest(container));
+    app.use(cors({origin: config.corsOrigin.split(',')}));
 
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(generateSpecs()));
     console.log(`Swagger docs → ${config.baseUrl}/docs`);
@@ -176,11 +177,6 @@ export function generateSpecs() {
             version: config.appVersion ?? '1.0.0',
             description: 'API documentation'
         },
-        servers: [
-            {
-                url: 'https://nice-coffee-brew-production.up.railway.app/',
-                description: 'Production server'
-            }
-        ]
+        servers: config.openapiServers
     });
 }
