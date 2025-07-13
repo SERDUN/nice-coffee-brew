@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { BrewService } from "./brew.service.js";
+import { respondCreated, respondNoContent, respondOk } from "../../utils/index.js";
 
 export class BrewController {
     static scope = 'scoped';
@@ -12,7 +13,7 @@ export class BrewController {
 
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            res.json(await this.brewService.getBrews());
+            respondOk(res, await this.brewService.getBrews());
         } catch (err) {
             next(err);
         }
@@ -21,7 +22,7 @@ export class BrewController {
     async getById(req: Request, res: Response, next: NextFunction) {
         try {
             const id = req.params.id;
-            res.json(await this.brewService.getBrewById(id));
+            respondOk(res, await this.brewService.getBrewById(id));
         } catch (err) {
             next(err);
         }
@@ -31,7 +32,7 @@ export class BrewController {
         try {
             console.log('Creating brew with body:', req.body);
             const brew = req.body;
-            res.status(201).json(await this.brewService.createBrew(brew));
+            respondCreated(res, await this.brewService.createBrew(brew));
         } catch (err) {
             next(err);
         }
@@ -40,7 +41,7 @@ export class BrewController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const {id, name} = req.body;
-            res.status(201).json(await this.brewService.updateBrew(id, name));
+            respondCreated(res, await this.brewService.updateBrew(id, name));
         } catch (err) {
             next(err);
         }
@@ -50,7 +51,7 @@ export class BrewController {
         try {
             const id = req.params.id;
             await this.brewService.deleteBrew(id);
-            res.status(204).send();
+            respondNoContent(res);
         } catch (err) {
             next(err);
         }
